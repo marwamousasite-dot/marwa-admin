@@ -20,56 +20,6 @@ text-align:center;
 overflow-x:hidden;
 }
 
-/* الخلفية */
-
-.bg{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-pointer-events:none;
-overflow:hidden;
-}
-
-/* الدواير */
-
-.circle{
-position:absolute;
-border-radius:50%;
-background:rgba(120,90,60,0.15);
-animation:move 3s linear infinite;
-}
-
-/* أحجام ومواقع مختلفة */
-
-.c1{width:6px;height:6px;top:10%;left:20%;}
-.c2{width:10px;height:10px;top:40%;left:70%;}
-.c3{width:8px;height:8px;top:60%;left:30%;}
-.c4{width:14px;height:14px;top:80%;left:50%;}
-.c5{width:7px;height:7px;top:20%;left:80%;}
-.c6{width:12px;height:12px;top:50%;left:10%;}
-.c7{width:9px;height:9px;top:75%;left:75%;}
-.c8{width:5px;height:5px;top:35%;left:40%;}
-.c9{width:6px;height:6px;top:15%;left:55%;}
-.c10{width:8px;height:8px;top:25%;left:35%;}
-.c11{width:12px;height:12px;top:65%;left:60%;}
-.c12{width:7px;height:7px;top:85%;left:25%;}
-.c13{width:10px;height:10px;top:45%;left:85%;}
-.c14{width:5px;height:5px;top:70%;left:40%;}
-
-/* حركة */
-
-@keyframes move{
-
-0%{transform:translateY(0)}
-50%{transform:translateY(-15px)}
-100%{transform:translateY(0)}
-
-}
-
-/* العنوان */
-
 h1{
 color:#5a4632;
 letter-spacing:3px;
@@ -78,37 +28,43 @@ font-weight:400;
 font-size:26px;
 }
 
-/* الشبكة */
+#loginBox{
+max-width:400px;
+margin:auto;
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 10px 20px rgba(0,0,0,0.08);
+display:flex;
+flex-direction:column;
+gap:15px;
+}
 
 .grid{
-display:grid;
+display:none;
 grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
 gap:15px;
 max-width:900px;
 margin:auto;
 }
 
-/* الكروت */
-
 .card{
-background:rgba(255,255,255,0.9);
+background:white;
 padding:22px 12px;
 border-radius:12px;
 color:#4a3b2a;
 font-size:15px;
 letter-spacing:1px;
 text-transform:uppercase;
-transition:.25s;
 cursor:pointer;
 border:1px solid rgba(0,0,0,0.05);
+transition:.25s;
 }
 
 .card:hover{
-transform:translateY(-4px) scale(1.03);
+transform:translateY(-4px);
 background:#f6f1e8;
 }
-
-/* الفورم */
 
 form{
 margin-top:25px;
@@ -118,12 +74,11 @@ gap:14px;
 max-width:420px;
 margin-left:auto;
 margin-right:auto;
-background:rgba(255,255,255,0.9);
+background:white;
 padding:22px;
 border-radius:14px;
+display:none;
 }
-
-/* الحقول */
 
 input,textarea{
 padding:14px;
@@ -135,63 +90,43 @@ outline:none;
 width:100%;
 }
 
-textarea{
-min-height:90px;
-resize:none;
-}
-
-/* الأزرار */
-
 button{
 padding:14px;
 background:#7b6248;
 border:none;
 color:white;
-letter-spacing:1px;
 font-size:15px;
 cursor:pointer;
 border-radius:10px;
-transition:.3s;
 }
 
 button:hover{
 background:#5a4632;
 }
 
-.backBtn{
-background:#cbb79b;
-color:#4a3b2a;
-}
-
-/* معاينة الصورة */
-
 .preview{
 margin-top:10px;
 max-width:120px;
 border-radius:10px;
 display:none;
-margin-left:auto;
-margin-right:auto;
+margin:auto;
 }
 
-/* موبايل */
-
-@media (max-width:600px){
-
-h1{
-font-size:22px;
+.logoutBtn{
+margin-bottom:20px;
+background:#a33;
 }
 
-.grid{
-grid-template-columns:1fr 1fr;
-gap:12px;
+table{
+background:white;
+margin:auto;
+border-collapse:collapse;
+width:90%;
 }
 
-.card{
-font-size:14px;
-padding:18px 10px;
-}
-
+th,td{
+padding:10px;
+border:1px solid #ddd;
 }
 
 </style>
@@ -200,26 +135,24 @@ padding:18px 10px;
 
 <body>
 
-<div class="bg">
+<h1>MARWA MOUSA ADMIN</h1>
 
-<div class="circle c1"></div>
-<div class="circle c2"></div>
-<div class="circle c3"></div>
-<div class="circle c4"></div>
-<div class="circle c5"></div>
-<div class="circle c6"></div>
-<div class="circle c7"></div>
-<div class="circle c8"></div>
-<div class="circle c9"></div>
-<div class="circle c10"></div>
-<div class="circle c11"></div>
-<div class="circle c12"></div>
-<div class="circle c13"></div>
-<div class="circle c14"></div>
+<!-- LOGIN -->
+
+<div id="loginBox">
+
+<h2>Admin Login</h2>
+
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="password" placeholder="Password">
+
+<button onclick="login()" id="loginBtn">Login</button>
+
+<p id="loading" style="display:none;color:#7b6248;">Loading...</p>
 
 </div>
 
-<h1>MARWA MOUSA ADMIN</h1>
+<button class="logoutBtn" onclick="logout()" style="display:none" id="logoutBtn">Logout</button>
 
 <div class="grid" id="dashboard">
 
@@ -231,33 +164,60 @@ padding:18px 10px;
 <div class="card" data-category="leathers">Leathers</div>
 <div class="card" data-category="bestsellers">Best Sellers</div>
 <div class="card" data-category="beads">Beads</div>
+<div class="card" data-category="orders">Orders</div>
 
 </div>
 
-<form id="productForm" style="display:none;">
+<form id="productForm">
 
 <h2>Add Product (<span id="categoryName"></span>)</h2>
 
 <input type="text" id="name" placeholder="Product Name" required>
-
 <input type="number" id="price" placeholder="Price" required>
-
 <textarea id="desc" placeholder="Description"></textarea>
-
 <input type="text" id="image" placeholder="Image URL" required>
 
 <img id="preview" class="preview">
 
-<button type="submit">Add Product</button>
-
-<button type="button" class="backBtn" onclick="goBack()">Back</button>
+<button type="submit">Add Product</button> <button type="button" onclick="goBack()">Back</button>
 
 </form>
 
+<!-- ORDERS PAGE -->
+
+<div id="ordersPage" style="display:none">
+
+<h2>Orders</h2>
+
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Product</th>
+<th>Price</th>
+<th>Qty</th>
+<th>Total</th>
+<th>Customer</th>
+<th>Phone</th>
+<th>Address</th>
+</tr>
+</thead>
+
+<tbody id="ordersTable"></tbody>
+
+</table>
+
+<br>
+
+<button onclick="goBack()">Back</button>
+
+</div>
+
 <script>
 
-const APIs={
+const LOGIN_API="https://script.google.com/macros/s/AKfycbzzZK3nPk8nB0gxmQTWI_ihkQ1XRkZD9LyImPpcwAS7I-rdrSsd5QSTmD4682i_jY1swQ/exec";
 
+const APIs={
 rings:"https://script.google.com/macros/s/AKfycbyTEQPUUpI2QEqOll3nfn_m6OhBGU6ZZC2jGm_dkUBOvlHnCTS-4DW1l9t1ZGwt2J6E/exec",
 earrings:"https://script.google.com/macros/s/AKfycbyYKkbUolvQ4XAa9JypZVkkfqxZZsxdKcgZGHJAyNVDouEQ3C6Dul9YSecm8K4_wAqu/exec",
 necklaces:"https://script.google.com/macros/s/AKfycbzV5ulAIrv3rVZy7ZlvJV-m3fFcbZH4p_xnbNb443iYxKKnLO7jktm_ZWm1wXhzRzO3/exec",
@@ -265,15 +225,62 @@ bracelets:"https://script.google.com/macros/s/AKfycbwlkhVCMVH4knCGrj7Cwkj8gCXMbD
 bags:"https://script.google.com/macros/s/AKfycbzearJTBoLvGtdiX8g9bCMr4cJi286kRKZ9H-q1fCCaxvjGcuw7bve5bKtjDXwMarUUkw/exec",
 leathers:"https://script.google.com/macros/s/AKfycbz8g00g6t7ZtrLHC_b4PSbSS1v8hzLac-no6ScPDt8J2QrZEIPXAeqqo2VPAijAH8_J/exec",
 bestsellers:"https://script.google.com/macros/s/AKfycbx8tKoTEs2TsjHge4Qqjj8ALjPnvMKDqqGABFubVcOSXVmlx34nbZ9flRosW20jG0W3/exec",
-beads:"https://script.google.com/macros/s/AKfycbydWz_6EAx3_sTndrvQgEP9CjOoVUzvRDI3vaqFOcGD2UKKDz3_o985zPhEF9wSH1GkTA/exec"
-
+beads:"https://script.google.com/macros/s/AKfycbydWz_6EAx3_sTndrvQgEP9CjOoVUzvRDI3vaqFOcGD2UKKDz3_o985zPhEF9wSH1GkTA/exec",
+orders:"https://script.google.com/macros/s/AKfycbxq5NVzDbBiy16c_u8NMNP4p1Ot9V_8YhtMB8G34TXUJxsLgcB-TZ6ca2B9PKVfdWU/exec"
 };
 
 const dashboard=document.getElementById("dashboard");
 const form=document.getElementById("productForm");
+const ordersPage=document.getElementById("ordersPage");
 const categoryName=document.getElementById("categoryName");
+const loginBox=document.getElementById("loginBox");
+const logoutBtn=document.getElementById("logoutBtn");
 
 let currentCategory="";
+
+if(localStorage.getItem("adminLogin")==="true"){
+loginBox.style.display="none";
+dashboard.style.display="grid";
+logoutBtn.style.display="block";
+}
+
+async function login(){
+
+const email=document.getElementById("email").value;
+const password=document.getElementById("password").value;
+
+document.getElementById("loading").style.display="block";
+
+const res=await fetch(LOGIN_API,{
+method:"POST",
+headers:{ "Content-Type":"text/plain;charset=utf-8"},
+body:JSON.stringify({email,password})
+});
+
+const data=await res.json();
+
+document.getElementById("loading").style.display="none";
+
+if(data.status==="success"){
+
+localStorage.setItem("adminLogin","true");
+
+loginBox.style.display="none";
+dashboard.style.display="grid";
+logoutBtn.style.display="block";
+
+}else{
+
+alert("Wrong Email or Password");
+
+}
+
+}
+
+function logout(){
+localStorage.removeItem("adminLogin");
+location.reload();
+}
 
 dashboard.addEventListener("click",(e)=>{
 
@@ -281,6 +288,14 @@ const card=e.target.closest(".card");
 if(!card) return;
 
 currentCategory=card.dataset.category;
+
+if(currentCategory==="orders"){
+dashboard.style.display="none";
+ordersPage.style.display="block";
+loadOrders();
+return;
+}
+
 categoryName.textContent=currentCategory;
 
 form.style.display="flex";
@@ -289,10 +304,9 @@ dashboard.style.display="none";
 });
 
 function goBack(){
-
 form.style.display="none";
+ordersPage.style.display="none";
 dashboard.style.display="grid";
-
 }
 
 document.getElementById("image").addEventListener("input",function(){
@@ -307,54 +321,57 @@ form.addEventListener("submit",async function(e){
 
 e.preventDefault();
 
-const submitButton=form.querySelector("button");
-
-submitButton.disabled=true;
-submitButton.textContent="Uploading...";
-
-try{
-
 const data={
-name:document.getElementById("name").value,
-price:document.getElementById("price").value,
-desc:document.getElementById("desc").value,
-image:document.getElementById("image").value
+name:name.value,
+price:price.value,
+desc:desc.value,
+image:image.value
 };
 
-const response=await fetch(APIs[currentCategory],{
+await fetch(APIs[currentCategory],{
 method:"POST",
 body:JSON.stringify(data)
 });
 
-await response.text();
-
 alert("Product Uploaded Successfully!");
 
 form.reset();
-document.getElementById("preview").style.display="none";
+preview.style.display="none";
 
 form.style.display="none";
 dashboard.style.display="grid";
 
-}
+});
 
-catch(err){
+async function loadOrders(){
 
-alert("Error: "+err);
+const res=await fetch(APIs.orders);
+const data=await res.json();
 
-}
+const table=document.getElementById("ordersTable");
 
-finally{
+table.innerHTML="";
 
-submitButton.disabled=false;
-submitButton.textContent="Add Product";
+data.forEach(o=>{
 
-}
+table.innerHTML+=`
+<tr>
+<td>${o.date}</td>
+<td>${o.product}</td>
+<td>${o.price}</td>
+<td>${o.qty}</td>
+<td>${o.total}</td>
+<td>${o.customer}</td>
+<td>${o.phone}</td>
+<td>${o.address}</td>
+</tr>
+`;
 
 });
+
+}
 
 </script>
 
 </body>
-
 </html>
